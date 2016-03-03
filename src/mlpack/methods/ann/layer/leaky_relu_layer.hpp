@@ -14,12 +14,12 @@ namespace ann /** Artificial Neural Network. */ {
 
 /**
  * Implementation of the leaky rectifier linearunit layer. A leaky rectifier
- * function has a small slope for x < 0, so that the gradient can flow in 
- * both the directions. The activation function for each neuron in this 
+ * function has a small slope for x < 0, so that the gradient can flow in
+ * both the directions. The activation function for each neuron in this
  * layer is the leaky rectifier function, defined by
  *
  * @f{eqnarray*}{
- * f(x) &=& \max(x*alpha, x) \\
+ * f(x) &=& \max(x*alpha, x) \\x
  * f'(x) &=& \left\{
  *   \begin{array}{lr}
  *     1 & : x > 0 \\
