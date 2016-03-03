@@ -2,7 +2,7 @@
  * @file leaky_relu_layer.hpp
  * @author Abhinav Chanda
  *
- * Definition of the LeakyReLULayer class.
+ * Definition and implementation of the LeakyReLULayer class.
  */
 #ifndef __MLPACK_METHODS_ANN_LAYER_LEAKYRELU_LAYER_HPP
 #define __MLPACK_METHODS_ANN_LAYER_LEAKYRELU_LAYER_HPP
@@ -13,8 +13,10 @@ namespace mlpack {
 namespace ann /** Artificial Neural Network. */ {
 
 /**
- * Implementation of the leaky rectifier unit layer. The activation 
- * function is the leaky rectifier function, defined by
+ * Implementation of the leaky rectifier linearunit layer. A leaky rectifier
+ * function has a small slope for x < 0, so that the gradient can flow in 
+ * both the directions. The activation function for each neuron in this 
+ * layer is the leaky rectifier function, defined by
  *
  * @f{eqnarray*}{
  * f(x) &=& \max(x*alpha, x) \\
@@ -25,6 +27,16 @@ namespace ann /** Artificial Neural Network. */ {
  *   \end{array}
  * \right.
  * @f}
+ *
+ * For more information, see the following paper:
+ *
+ * @code
+ * @misc{Maas2013,
+ *   author = {Andrew L. Maas, Awni Y. Hannun, Andrew Y. Ng},
+ *   title = {Rectifier Nonlinearities Improve Neural Network Acoustic Models},
+ *   year = {2013}
+ * }
+ * @endcode
  *
  * @tparam InputDataType Type of the input data (arma::colvec, arma::mat,
  *         arma::sp_mat or arma::cube).
@@ -39,15 +51,9 @@ class LeakyReLULayer
 {
  public:
   /**
-   * Default constructor; sets alpha to 0.01.
-   */
-  LeakyReLULayer() : alpha(0.01)
-  { } 
-
-  /**
-   * Construct LeakyReLULayer with a custom alpha.
+   * Create LeakyReLULayer object.
    *
-   * @param alpha The alpha factor of the layer.
+   * @param alpha The leakyness factor of the layer.
    */
   LeakyReLULayer(double alpha) : alpha(alpha)
   { }
@@ -80,8 +86,10 @@ class LeakyReLULayer
                 DataType& g)
   {
     DataType derivative;
+    // Compute the derivative of each element in input.
     for (size_t i = 0; i < input.n_elem; i++)
       derivative(i) = (input(i) > 0) ? 1 : alpha;
+    
     g = gy % derivative;
   }
 
@@ -117,6 +125,7 @@ class LeakyReLULayer
     }
 
     arma::Cube<eT> derivative = input;
+    // Compute the derivative of each element in input.
     for (size_t i = 0; i < input.n_elem; i++)
       derivative(i) = (input(i) > 0) ? 1 : alpha;
 
@@ -153,7 +162,7 @@ class LeakyReLULayer
   //! Locally-stored output parameter object.
   OutputDataType outputParameter;
 
-  //! leakyness factor
+  //! The leakyness factor for the layer
   double alpha;
 }; // class LeakyReLULayer
 
