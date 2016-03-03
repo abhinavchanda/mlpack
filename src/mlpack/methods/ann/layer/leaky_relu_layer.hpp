@@ -123,6 +123,11 @@ class LeakyReLULayer
     g = mappedError % derivative;
   }
 
+  //! Get the alpha.
+  double Alpha() const { return alpha; }
+  //! Modify the alpha.
+  double& Alpha() { return alpha; }
+
   //! Get the input parameter.
   InputDataType& InputParameter() const { return inputParameter; }
   //! Modify the input parameter.
