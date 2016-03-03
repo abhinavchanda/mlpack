@@ -55,8 +55,10 @@ class LeakyReLULayer
    *
    * @param alpha The leakyness factor of the layer.
    */
-  LeakyReLULayer(double alpha) : alpha(alpha)
-  { }
+  LeakyReLULayer(const double alpha = 0.01) : alpha(alpha)
+  { 
+    // Nothing to do here.
+  }
 
   /**
    * Ordinary feed forward pass of a neural network, evaluating the function
